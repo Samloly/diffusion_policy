@@ -49,6 +49,7 @@ class SimpleEnv2:
             black_sky         = True,
             use_rgb_overlay = False,
             loc_rgb_overlay = 'top right',
+            pre_render=True,
         )
     def reset(self, seed = None):
         '''
@@ -100,8 +101,10 @@ class SimpleEnv2:
         self.p0, self.R0 = self.env.get_pR_body(body_name='tcp_link')
         mug_red_init_pose, mug_blue_init_pose, plate_init_pose = self.get_obj_pose()
         self.obj_init_pose = np.concatenate([mug_red_init_pose, mug_blue_init_pose, plate_init_pose],dtype=np.float32)
-        for _ in range(100):
+        for i in range(100):
             self.step_env()
+            if i % 10 == 0:
+                self.env.render()
         self.set_instruction()
         print("DONE INITIALIZATION")
         self.gripper_state = False

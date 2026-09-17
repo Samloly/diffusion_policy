@@ -73,7 +73,7 @@ class DiffusionLeRobotDatasetWrapper(Dataset):
     def __init__(self, lerobot_dataset, stats, image_key="observation.image"):
         self.dataset = lerobot_dataset
         self.image_key = image_key
-        # self.stats = stats
+        self.stats = stats
 
     def __len__(self):
         return len(self.dataset)
@@ -88,8 +88,8 @@ class DiffusionLeRobotDatasetWrapper(Dataset):
         agent_pos = item["observation.state"].float()
         action = item["action"].float()
 
-        # agent_pos = normalize(agent_pos,self.stats["agent_poas"]["min"],self.stats["agent_pos"]["max"])
-        # action = normalize(action, self.stats["action"]["min"], self.stats["action"]["max"])
+        agent_pos = normalize(agent_pos,self.stats["agent_pos"]["min"],self.stats["agent_pos"]["max"])
+        action = normalize(action, self.stats["action"]["min"], self.stats["action"]["max"])
 
         return {
             "image":image,

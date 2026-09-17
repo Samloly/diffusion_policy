@@ -1,0 +1,54 @@
+global:
+  seed: 42
+  device: auto
+  debug: true
+
+dataset:
+  dataset_root: data/omy_pnp_language
+  norm_data_path: data/norm_stats.pt
+  repo_id: Jeongeun/omy_pnp_language
+  image_key: observation.image
+  prompt_key: task
+
+dataloader:
+  batch_size: 64
+  num_workers: 12
+  shuffle: true
+  pin_memory: true
+  persistent_workers: true
+
+policies:
+  diffusion:
+    horizons:
+      obs: 2
+      action: 8
+      pred: 16
+    model:
+      vision_feature_dim: 512
+      num_diffusion_iters: 100
+    trainer:
+      num_epochs: 300
+      lr: 1.0e-4
+      weight_decay: 1.0e-6
+      ema_power: 0.75
+      lr_scheduler_name: cosine
+      lr_num_warmup_steps: 500
+      save_path: results/best_mujoco_diffusion.pt
+
+  vla:
+    horizons:
+      obs: 1
+      pred: 16
+    model:
+      embed_dim: 384
+      fmhead_num_layers: 4
+      fmhead_nhead: 8
+      fmhead_dim_feedforward: 1024
+    trainer:
+      num_epochs: 150
+      lr: 1.0e-4
+      weight_decay: 1.0e-6
+      ema_power: 0.75
+      lr_scheduler_name: cosine
+      lr_num_warmup_steps: 500
+      save_path: results/best_mujoco_vla.pt

@@ -1,0 +1,64 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "diffusion_policy"
+version = "0.1.0"
+description = "A clean implementation of Diffusion Policy for robot learning based on Chi et al."
+requires-python = ">=3.12"
+license = { text = "MIT" }
+authors = [
+    { name = "Your Name", email = "your.email@example.com" }
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    # Core Deep Learning & Diffusion
+    "torch<=2.7",
+    "torchvision",   
+    "diffusers",   
+    "huggingface_hub>=1.24.0",
+    "datasets>=4.0.0",
+    "transformers>=4.46.0",
+    "sentencepiece==0.2.2",
+
+    
+    # Dataset Loading & Serialization
+    "zarr",
+    "numcodecs>=0.13",
+    "numpy>=2.0.0",
+    
+    # Push-T Simulation Environment
+    "gym==0.26.2",
+    "pygame>=2.1.2",
+    "pymunk==6.2.1",
+    "shapely>=1.8.4",
+    
+    # Image & Video Processing Utilities
+    "scikit-image>=0.19.3",
+    "scikit-video>=1.1.11",
+    
+    # Utilities
+    "tqdm>=4.68.3",
+    "pyyaml>=6.0.2",
+    "gdown>=6.1.0",
+    "matplotlib>=3.10.9",
+    "opencv-python>=4.11.0.86",
+    "pyautogui",
+
+    # Simulation & Robotics
+    "mujoco==3.1.6",
+    "lerobot==0.5.1",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/diffusion_policy"]
+
+[project.scripts]
+train-policy = "scripts.train:main"
+train-mujoco = "scripts.train_mujoco:main"
